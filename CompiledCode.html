@@ -246,8 +246,7 @@
 }
 
 .workout-card.exit-left {
-    transform: translateX(-600px) rotate(-15deg);
-
+    transform: translateX(-1000px) rotate(-15deg);
 }
 
 .workout-card-inner {
@@ -274,9 +273,6 @@
     flex-grow: 1;
     flex-direction: column;
     justify-content: center;
-}
-.workout-card-face.card-front {
-    
 }
 
 .workout-card.enter-right {
@@ -312,6 +308,12 @@
     .difficulty {
         padding: 1rem;
         font-size: 1.25rem;
+    }
+    .card-deck:hover .card-inner {
+        transform: none; /* Disable the 3D tilt on smaller screens */
+    }
+    #difficultyContainer {
+        gap: 0.5rem;
     }
 }
     </style>
@@ -918,13 +920,13 @@ const cardColors = {
 const cardBackgroundColors = {
     "Upper Body": "background: linear-gradient(180deg, #000827,#000827, transparent, transparent, transparent, transparent, transparent, transparent, transparent, transparent, transparent, #000827,#000827); background-clip: padding-box;",
     "Lower Body": "padding-box; background: linear-gradient(180deg, #06362d, #06362d, transparent, transparent, transparent, transparent, transparent, transparent, transparent, transparent, transparent, #06362d, #06362d); background-clip: padding-box;",
-    "Core/Cardio": "padding-box; background: linear-gradient(180deg, #635219, #635219, transparent, transparent, transparent, transparent, transparent, transparent, transparent, transparent, transparent, #635219, #635219); background-clip: padding-box;"
+    "Core/Cardio": "padding-box; background: linear-gradient(180deg, #cba730, #cba730, transparent, transparent, transparent, transparent, transparent, transparent, transparent, transparent, transparent, #cba730, #cba730); background-clip: padding-box;"
 }
 
 const cardHighlightColors = {
-    "Upper Body": "font-weight: bold; text-shadow: 1px -2px 0px rgb(33, 88, 159); color:rgb(0, 14, 71) ;",
-    "Lower Body": "font-weight: bold; text-shadow: 1px -2px 0px rgb(38, 151, 129); color: rgb(12, 87, 72);",
-    "Core/Cardio": "font-weight: bold; text-shadow: 1px -2px 0px rgb(219, 202, 76); color: rgb(99, 82, 25);"
+    "Upper Body": `font-family: "Cinzel", "Georgia", serif; font-weight: bold; text-shadow: 1px -2px 0px rgb(33, 88, 159); color:rgb(0, 14, 71) ;`,
+    "Lower Body": `font-family: "Cinzel", "Georgia", serif; font-weight: bold; text-shadow: 1px -2px 0px rgb(38, 151, 129); color: rgb(12, 87, 72);`,
+    "Core/Cardio": `font-family: "Cinzel", "Georgia", serif; font-weight: bold; text-shadow: 1px -2px 0px rgb(219, 202, 76); color: #cba730;`
 }
 
 const Difficulty = {
@@ -1196,6 +1198,10 @@ function selectDeck(deckKey) {
 
     shuffle(currentDeck);
     shuffle(currentDeck);
+    shuffle(currentDeck);
+    shuffle(currentDeck);
+    shuffle(currentDeck);
+    shuffle(currentDeck);
 
     currentCardIndex = 0;
 
@@ -1249,7 +1255,7 @@ function createCardElement(cardData) {
 
                 <h1 style='font-size: 9rem; margin: 0;${cardHighlightColors[deckName] || ""}'>${adjustedValue}</h1>
 
-                <h2 style='font-size: 4rem; margin: 0;${cardHighlightColors[deckName] || ""}'>${exercise}</h2>
+                <h2 style='font-size: 3rem; margin: 0;${cardHighlightColors[deckName] || ""}'>${exercise}</h2>
 
             </div>
         </div>
@@ -1279,11 +1285,10 @@ async function nextCard() {
     cardLocked = true;
 
     const card = document.querySelector(".active-card");
-
-    card.style.transform = "translateX(-1000px) rotate(-15deg)";
+    card.classList.add("exit-left");
     cardAnimating = true;
 
-    await wait(600);
+    await wait(300);
 
     currentCardIndex++;
 
@@ -1293,6 +1298,15 @@ async function nextCard() {
 
         return;
     }
+
+    const cards = document.querySelectorAll(".workout-card");
+    let offset = 0
+    for (let i = cards.length - 2; i >= 0; i--) {
+        cards[i].style.transform = `translate(${offset * 8}px, ${offset * 8}px)`;
+        offset++;
+    }
+    
+    await wait(500);
 
     renderStack();
 
