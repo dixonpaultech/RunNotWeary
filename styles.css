@@ -240,7 +240,7 @@
 }
 
 .workout-card.exit-left {
-    transform: translateX(-1000px) rotate(-15deg);
+    transform: translateX(-1200px) rotate(-15deg);
 }
 
 .workout-card-inner {

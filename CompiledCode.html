@@ -246,7 +246,7 @@
 }
 
 .workout-card.exit-left {
-    transform: translateX(-1000px) rotate(-15deg);
+    transform: translateX(-1200px) rotate(-15deg);
 }
 
 .workout-card-inner {
@@ -1285,7 +1285,7 @@ async function nextCard() {
     cardLocked = true;
 
     const card = document.querySelector(".active-card");
-    card.classList.add("exit-left");
+    card.style.transform = "translateX(-1200px) rotate(-15deg)";
     cardAnimating = true;
 
     await wait(300);

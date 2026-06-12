@@ -642,7 +642,7 @@ async function nextCard() {
     cardLocked = true;
 
     const card = document.querySelector(".active-card");
-    card.classList.add("exit-left");
+    card.style.transform = "translateX(-1200px) rotate(-15deg)";
     cardAnimating = true;
 
     await wait(300);
